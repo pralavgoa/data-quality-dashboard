@@ -1,0 +1,5 @@
+ontology_id, parent_id, ontology_name
+1212,0,Demographics
+1232,0,ICD-9-CM
+2323,1212,Male
+23223,1232,Asthma

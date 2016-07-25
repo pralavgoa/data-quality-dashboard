@@ -1,0 +1,5 @@
+ontology_id,parent_id,ontology_name,comments
+1212,0,Demographics,"Data load is complete"
+1232,0,ICD-9-CM,"ETL did not run fully last week, might show wrong counts"
+2323,1212,Male,"This population data is an estimate"
+23223,1232,Asthma,"Data might be slightly skewed"

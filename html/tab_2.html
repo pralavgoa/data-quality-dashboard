@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard for UCReX</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+  </head>
+    <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">UCReX Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="#">Overview</a></li>
+            <li><a href="tab_1.html">Tab 1</a></li>
+            <li class="active"><a href="#">Tab 2 <span class="sr-only">(current)</span></a></li>
+            <li><a href="tab_3.html">Tab 3</a></li>
+            <li><a href="tab_4.html">Tab 4</a></li>
+            <li><a href="tab_5.html">Tab 5</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Tab 2</h1>
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              Displays each site’s down times and response times to queries involving a range of observation types 
+              and query complexities. The application will alert site administrators regarding significant outages.
+          </div>
+          </div>
+          <h2 class="sub-header">Results Filter</h2>
+          <div class="row placeholders">
+            <form id="filters-form" class="form-horizontal col-sm-9">
+	  			<div class="form-group">
+	    			<label for="level1select" class="col-sm-2 control-label">Query</label>
+	    			<div class="col-sm-10">
+		    			<select id="level1select" class="form-control" name="query"></select>
+					</div>
+	  		   	</div>
+				  	<div class="form-group">
+	    			<label for="fromyearselect" class="col-sm-2 control-label">Day Range</label>
+	    			<div class="col-sm-10">
+		    			<select id="toyearselect" class="form-control" name="day-range">
+						  <option value="1">Today</option>
+						  <option value="7">Past 7 days</option>
+						  <option value="30">Past 30 days</option>
+						</select>
+					   </div>
+	  		   	</div>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10" id="clinics-filter-container"></div>
+				</div>
+				<div class="form-group">
+				    <div class="col-sm-offset-2 col-sm-10">
+				      <button type="submit" class="btn btn-default">submit</button>
+  				    </div>
+				</div>
+			</form>  
+          </div>
+
+            <div id="counts-container" class="table-responsive" hidden>
+                <h2 class="sub-header">Query Results</h2>
+                <table id="result-table" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Query</th>
+                        <th>UCLA</th>
+                        <th>UCI</th>
+                        <th>UCD</th>
+                        <th>UCSF</th>
+                        <th>UCSD</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Q1</th>
+                        <td>123</td>
+                        <td>234</td>
+                        <td>232</td>
+                        <td>343</td>
+                        <td>1121</td>
+                    </tr>
+                    <tr>
+                        <th>Q2</th>
+                        <td>454</td>
+                        <td>343</td>
+                        <td>343</td>
+                        <td>2342</td>
+                        <td>1212</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div hidden id="no-data-container"><h2>No data</h2></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="jquery-csv.min.js"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="stacked_bars.js"></script>
+    <script src="tab_2.js"></script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard for UCReX</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+  </head>
+    <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">UCReX Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="#">Overview</a></li>
+            <li><a href="tab_1.html">Tab 1</a></li>
+            <li><a href="tab_2.html">Tab 2</a></li>
+            <li><a href="#">Tab 3</a></li>
+            <li><a href="tab_4.html">Tab 4</a></li>
+            <li class="active"><a href="tab_5.html">Tab 5<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Tab 5</h1>
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              Automatically flags statistical anomalies in count data based on comparisons of the parameters above between sites, 
+              between sequential results from the same query, and between different observation periods.
+          </div>
+          </div>
+          <div class="row placeholders">
+            <h2 class="sub-header">Statistical Anomalies</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Site</th>
+                  <th>Possible Anomaly</th>
+                  <th>Explanation</th>
+                  <th>Resolved?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>UCLA</td>
+                  <td>Counts look incorrect - Demographics</td>
+                  <td>Inconsistent compared to other sites</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td>UCSF</td>
+                  <td>Counts look incorrect - Diagnosis</td>
+                  <td>Inconsistent compared to previous results</td>
+                  <td>No</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="https://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="stacked_bars.js"></script>
+  </body>
+</html>
