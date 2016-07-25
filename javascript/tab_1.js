@@ -1,204 +1,113 @@
 $(document).ready(function () {
+
+  var $notes = $('#blNotes');
+  var $slider = $("#yearSlider");
+
   const KEY_ONTOLOGY_ID = 'ontology_id';
-  const KEY_PARENT_ID = ' parent_id';
-  const KEY_ONTOLOGY_NAME = ' ontology_name';
+  const KEY_PARENT_ID = 'parent_id';
+  const KEY_ONTOLOGY_NAME = 'ontology_name';
 
-  var queryData = [];
-  var filtersData = {
-    levels: [],
-    common: [],
-    clinics: []
+  const LIST_HOSPITALS = ['UCLA', 'UCSF', 'UCI', 'UCSD', 'UCD'];
+
+  var chartFilters = {
+    ontologyId: '',
+    years: {min: '', max: ''}
   };
-  var $firstLevelSelect = $('#level1select');
-  var $secondLevelSelect = $('#level2select');
-  var $yearFromSelect = $('#fromyearselect');
-  var $yearToSelect = $('#toyearselect');
-  var $filtersForm = $('#filters-form');
-  var $clinicsContainer = $('#clinics-filter-container');
-  var $countsTable = $('#counts-table');
+  var parsedData = {
+    tree: [],
+    chart: [],
+    notes: []
+  };
 
-  $firstLevelSelect.change(function (e) {
-    var selectedId = $(this).val();
-    composeSecondLevel(filtersData.levels, selectedId);
+  var isInitSlider = false;
+
+  //Fill select for Add Comment
+  $.each(LIST_HOSPITALS, function(index, item){
+    var x = document.getElementById("hospital");
+    var option = document.createElement("option");
+    option.text = item;
+    x.add(option);
   });
 
-  $yearFromSelect.change(function (e) {
-    var selectedYear = $(this).val();
-    composeYearsTo(filtersData.common, selectedYear);
-  });
-
-  $filtersForm.submit(function (e) {
+  //Send Comment
+  $('#comment-form').submit(function (e) {
     e.preventDefault();
 
-    var filters = collectFilters();
-    var data = filterQueryData(queryData, filters);
-    buildTable(data, filters);
-    buildChart(data);
-  });
+    var formData = {};
+    $("#comment-form").serializeArray().map(function(x){formData[x.name] = x.value;});
+    formData.ontology_id = chartFilters.ontologyId;
 
-  function collectFilters() {
-    var filter;
-    var filters = $filtersForm.serializeArray();
-    var transformedFilters = {
-      ontology_ids: [],
-      clinics: [],
-      yearFrom: null,
-      yearTo: null
-    };
+    //Validation
+    if(formData.hospital == "")
+      $('#hospital').addClass('has-error');
+    else
+      $('#hospital').removeClass('has-error');
 
-    for (index in filters) {
-      filter = filters[index];
+    if(formData.comment == "")
+      $('#comment').addClass('has-error');
+    else
+      $('#comment').removeClass('has-error');
 
-      if (!filter.value)
-        continue;
-
-      if (filter.name === 'level1') {
-        transformedFilters.ontology_ids = [parseInt(filter.value)];
-      } else if (filter.name === 'level2') {
-        transformedFilters.ontology_ids = [parseInt(filter.value)];
-      } else if (filter.name === 'date-from') {
-        transformedFilters.yearFrom = parseInt(filter.value);
-      } else if (filter.name === 'date-to') {
-        transformedFilters.yearTo = parseInt(filter.value);
-      } else {
-        transformedFilters.clinics.push(filter.value);
-      }
-    }
-
-    return transformedFilters;
-  }
-
-  function findParentId(id) {
-    var parentId = 0;
-
-    $.each(filtersData.levels, function (index, item) {
-      if (item.id == id) {
-        parentId = item.parentId;
-        return false;
-      }
-    });
-
-    return parentId;
-  }
-
-  function filterQueryData(queryData, filters) {
-    var prevItem;
-    var parentId;
-    var filteredItem;
-    var clinic;
-    var filteredData = [];
-
-    $.each(queryData, function (index, item) {
-      filteredItem = {
-        year: item.year,
-        ontolgy_id: item.ontolgy_id
-      };
-
-      if (filters.yearFrom !== null && filteredItem.year < filters.yearFrom) {
-        return;
-      }
-
-      if (filters.yearTo !== null && filteredItem.year > filters.yearTo) {
-        return;
-      }
-
-      if (filters.ontology_ids.length > 0 && $.inArray(filteredItem.ontolgy_id, filters.ontology_ids) < 0) {
-        parentId = findParentId(filteredItem.ontolgy_id);
-
-        if ($.inArray(parentId, filters.ontology_ids) < 0)
-          return;
-      }
-
-      filteredItem.clinics = [];
-      for (property in item) {
-        if (
-          property === 'queryRunTimestamp' || property === 'year' ||
-          property === 'clinics' || property === 'ontolgy_id'
-        ) {
-          continue;
-        }
-
-        if ($.inArray(property, filters.clinics) < 0) {
-          continue;
-        }
-
-        filteredItem.clinics.push({
-          name: property,
-          count: item[property]
-        });
-        filteredItem[property] = item[property];
-      }
-
-
-      prevItem = null;
-      $.each(filteredData, function (index, item) {
-        if (item.year == filteredItem.year) {
-          prevItem = item;
-          return false;
+    if(formData.hospital != "" && formData.comment != ""){
+      $.ajax({
+        type: 'POST',
+        url: '/api/ontology/comments',
+        data: {
+          'API_TOKEN': 'some-api-token',
+          'ontology_id': formData.ontology_id,
+          'comments': formData.comment,
+          'hospital': formData.hospital
+        },
+        success: function (res) {
+          // do something after creating a comment...
+          alert('Successful');
         }
       });
+    }
+  });
 
-      // If there is previous item with same year, sum it
-      if (prevItem) {
-        for (index in prevItem.clinics) {
-          clinic = prevItem.clinics[index];
-          clinic.count += filteredItem.clinics[index].count;
-          prevItem[clinic.name] = clinic.count;
-        }
-      } else {
-        filteredData.push(filteredItem);
-      }
+  //Listener 'Click' on jsTree
+  $('#jstree_div').on("changed.jstree", function (e, data) {
+    var parentId = parseInt(data.selected);
+
+    //Get ontology id, which selected
+    chartFilters.ontologyId = parentId;
+
+    if(chartFilters.ontologyId != '') {
+      setFilterYears(parsedData.chart, chartFilters.ontologyId);
+
+      //Drawing Charts
+      initSlider();
+      drawChart();
+
+      //Show button Add Comment
+      showBtnAddComment();
+      //Showing Notes
+      showNotes(parentId);
+
+      clearFormComment();
+    }
+  });
+
+
+  function clearFormComment(){
+    $('#myModal').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
     });
-
-    return filteredData;
   }
 
-  function transformOntologyData(data) {
-    var transformedData = [];
-
-    $.each(data, function (index, item) {
-      var id = parseInt(item[KEY_ONTOLOGY_ID]);
-      var parentId = parseInt(item[KEY_PARENT_ID]);
-      var name = item[KEY_ONTOLOGY_NAME];
-      var transformedItem = {
-        id: isNaN(id) ? 0 : id,
-        parentId: isNaN(parentId) ? 0 : parentId,
-        name: name
-      };
-
-      transformedData.push(transformedItem);
-    });
-
-    return transformedData;
+  function showBtnAddComment(){
+    $('#btnAddComment').show();
   }
 
-  function transformCommonData(data) {
-    var transformedData = [];
-
-    $.each(data, function (index, item) {
-      var year = parseInt(item['Year']);
-      var transformedItem = {
-        year: isNaN(year) ? 0 : year
-      };
-
-      for (var property in item) {
-        if (property === 'Year')
-          continue;
-
-        transformedItem[property] = parseFloat(item[property]);
-        transformedItem[property] = isNaN(transformedItem[property]) ? 0.0 : transformedItem[property];
-      }
-
-      transformedData.push(transformedItem);
-    });
-
-    return transformedData;
+  function hideBtnAddComment(){
+    $('#btnAddComment').hide();
   }
 
   function transformQueryData(data) {
     var transformedData = [];
 
-    $.each(data, function (index, item) {
+      $.each(data, function (index, item) {
       var year = parseInt(item['Year']);
       var transformedItem = {
         year: isNaN(year) ? 0 : year,
@@ -219,208 +128,170 @@ $(document).ready(function () {
     return transformedData;
   }
 
-  // Composing of a Level 1 select
-  function composeFirstLevel() {
-    var $option = $('<option></option>');
-
-    $firstLevelSelect.html('');
-    $firstLevelSelect.append($option);
-
-    $.each(filtersData.levels, function (index, item) {
-      if (item.parentId === 0) {
-        $option = $('<option></option>');
-
-        $option.val(item.id);
-        $option.text(item.name);
-        $firstLevelSelect.append($option);
-      }
-    });
-  }
-
-  // Composing of a Level 2 select
-  function composeSecondLevel(data, selectedId) {
-    var $option = $('<option></option>');
-    selectedId = parseInt(selectedId);
-    selectedId = isNaN(selectedId) ? 0 : selectedId;
-
-    $secondLevelSelect.html('');
-    $secondLevelSelect.append($option);
-
-    $.each(filtersData.levels, function (index, item) {
-      if (item.parentId === selectedId && selectedId > 0) {
-        $option = $('<option></option>');
-
-        $option.val(item.id);
-        $option.text(item.name);
-        $secondLevelSelect.append($option);
-      }
-    });
-  }
-
-  function composeYearsFrom(data, yearTo) {
-    var $option = $('<option></option>');
-
-    yearTo = parseInt(yearTo);
-    yearTo = isNaN(yearTo) ? 0 : yearTo;
-
-    $yearFromSelect.html('');
-    $yearFromSelect.html($option);
+  function selectDataForChart(data, ontologyId, years) {
+    var transformedData = [];
 
     $.each(data, function (index, item) {
-      if (yearTo >= item.year)
-        return;
-
-      $option = $('<option></option>');
-      $option.val(item.year);
-      $option.text(item.year);
-
-      $yearFromSelect.append($option);
+      var year = item['year'];
+      if(ontologyId == item['ontolgy_id'] && (year >= years.min && year <= years.max)){
+        var transformedItem = {'label': year,  values: [item['UCLA'], item['UCSF'], item['UCI'], item['UCSD'], item['UCD']]};
+        transformedData.push(transformedItem);
+      }
     });
+
+    return transformedData;
   }
 
-  function composeYearsTo(data, yearFrom) {
-    var $option = $('<option></option>');
-
-    yearFrom = parseInt(yearFrom);
-    yearFrom = isNaN(yearFrom) ? 0 : yearFrom;
-
-    $yearToSelect.html('');
-    $yearToSelect.html($option);
+  function transformOntologyData(data) {
+    var transformedData = [];
 
     $.each(data, function (index, item) {
-      if (yearFrom > item.year)
-        return;
+      var id = parseInt(item[KEY_ONTOLOGY_ID]);
+      var parent = parseInt(item[KEY_PARENT_ID]);
+      var text = item[KEY_ONTOLOGY_NAME];
+      var transformedItem = {
+        id: isNaN(id) ? 0 : id,
+        parent: isNaN(parent) || parent == 0 ? '#' : parent,
+        text: text
+      };
 
-      $option = $('<option></option>');
-      $option.val(item.year);
-      $option.text(item.year);
-
-      $yearToSelect.append($option);
+      transformedData.push(transformedItem);
     });
+
+    return transformedData;
   }
 
-  function composeClinics(data) {
-    var $clone;
-    var item = data[0];
-    var $layout = $(
-      '<label class="checkbox-inline">' +
-      '<input type="checkbox" name="" value="" checked="checked" class="js-clinic-filter-checkbox"> ' +
-      '<span class="js-clinic-filter-name"></span>' +
-      '</label>'
-    );
+  function transformNotesData(data) {
+    var transformedData = [];
 
-    for (var property in item) {
-      if (property === 'year')
-        continue;
+    $.each(data, function (index, item) {
+      var ontology_id = parseInt(item['ontology_id']);
+      var transformedItem = {
+        ontology_id: isNaN(ontology_id) ? 0 : ontology_id,
+        comments: item['comments'],
+        hospital: item['hospital']
+      };
 
-      $clone = $layout.clone();
-      $clone.find('.js-clinic-filter-checkbox').attr({
-        value: property,
-        name: 'clinics[]'
-      });
-      $clone.find('.js-clinic-filter-name').text(property);
+      transformedData.push(transformedItem);
+    });
 
-      $clinicsContainer.append($clone);
+    return transformedData;
+  }
+
+  function setFilterYears(data, ontologyId){
+    var year_arr = [];
+    $.each(data, function (index, item) {
+      if(ontologyId == item['ontolgy_id']){
+        var year = item['year'];
+        year_arr.push(year);
+      }
+    });
+
+    if(year_arr.length > 0){
+      year_arr.sort();
+      chartFilters.years.min = year_arr[0];
+      chartFilters.years.max = year_arr[year_arr.length - 1];
+      $('#fromRange').html(year_arr[0]);
+      $('#toRange').html(year_arr[year_arr.length - 1]);
+
+    }else{
+      chartFilters.years.min = '';
+      chartFilters.years.max = '';
+      $('#fromRange').html('');
+      $('#toRange').html('');
     }
   }
 
-  function showData() {
-    $('#no-data-container').hide();
-    $('#chart-container').show();
-    $('#counts-container').show();
+  function initSlider(){
+    if(chartFilters.years.min != "" && chartFilters.years.max != "") {
+
+      isInitSlider = true;
+      $slider.slider({
+        min: chartFilters.years.min,
+        max: chartFilters.years.max,
+        range: true,
+        value: [chartFilters.years.min, chartFilters.years.max],
+        step: 1
+      }).on('change', function (event) {
+        var years = event.value.newValue;
+        chartFilters.years.min = years[0];
+        chartFilters.years.max = years[1];
+
+        $('#fromRange').html(years[0]);
+        $('#toRange').html(years[1]);
+
+        drawChart();
+      }).show();
+    }else {
+      if(isInitSlider){
+        $slider.slider('destroy');
+        isInitSlider = false;
+      }
+    }
   }
 
-  function hideData() {
-    $('#no-data-container').show();
-    $('#chart-container').hide();
-    $('#counts-container').hide();
+  function drawChart() {
+    var dataChart = selectDataForChart(parsedData.chart, chartFilters.ontologyId, chartFilters.years);
+
+    buildChart(LIST_HOSPITALS, dataChart);
   }
 
-  function buildTable(data, filters) {
-    var $th;
-    var $tr;
-    var $td;
-    var clinic;
-    var firstItem = data[0];
-    var $headerLayout = $(
-      '<thead>' +
-      '<tr>' +
-      '<th>Year</th>' +
-      '</tr>' +
-      '</thead>'
-    );
-    $countsTable.html('');
-
-    if (!firstItem) {
-      hideData();
-      return;
-    }
-
-    showData();
-
-    for (index in firstItem.clinics) {
-      clinic = firstItem.clinics[index];
-
-      if ($.inArray(clinic.name, filters.clinics) < 0) {
-        continue;
+  function showNotes(parentId){
+    $notes.html('<table class="table table-stripped"></table>');
+    var isExistsData = false;
+    $.each(parsedData.notes, function (index, item) {
+      if(item.ontology_id == parentId) {
+        isExistsData = true;
+        $notes.find('table').append(
+            '<tr><td><div class="ft-wt-b">' + item.hospital + '</div><div>' + item.comments + '</div></td></tr>'
+        );
       }
-
-      $th = $('<th></th>');
-      $th.text(clinic.name);
-      $headerLayout.find('tr').append($th);
-    }
-
-    $countsTable.html($headerLayout);
-
-    $.each(data, function (index, item) {
-      $tr = $('<tr></tr>');
-      $td = $('<td></td>').text(item.year);
-
-      $tr.append($td);
-
-      for (index in item.clinics) {
-        clinic = item.clinics[index];
-
-        if ($.inArray(clinic.name, filters.clinics) < 0) {
-          continue;
-        }
-
-        $td = $('<td></td>').text(clinic.count);
-        $tr.append($td);
-      }
-
-      $countsTable.append($tr);
     });
+
+    if(!isExistsData){
+      $notes.find('table').append(
+          '<tr><td style="border-top: none;"><div>No data</div></td></tr>'
+      );
+    }
+
   }
 
-  // Getting all data
+
+  hideBtnAddComment();
+
+  // Getting data for jsTree
   $.ajax({
-    url: 'tab_1_data.csv',
+    url: '/data/tab_1_a_data.csv',
     success: function (csvd) {
-      queryData = transformQueryData($.csv.toObjects(csvd));
+      parsedData.tree = transformOntologyData($.csv.toObjects(csvd));
+
+      //init JsTree
+      $('#jstree_div').jstree({
+        "plugins" : [ "wholerow" ],
+        'core' : {
+        'data' : parsedData.tree
+      } });
     },
     dataType: 'text'
   });
 
-  // Getting data for filters
+  // Getting data for Charts
   $.ajax({
-    url: 'tab_1_filters.csv',
+    url: '/data/tab_1_b_data.csv',
     success: function (csvd) {
-      filtersData.levels = transformOntologyData($.csv.toObjects(csvd));
-      composeFirstLevel(filtersData.levels);
+      parsedData.chart = transformQueryData($.csv.toObjects(csvd));
     },
     dataType: 'text'
   });
 
-  // Getting common data
+  // Getting data for Notes
   $.ajax({
-    url: 'tab_1_data_sample.csv',
+    url: '/data/tab_1_c_data.csv',
     success: function (csvd) {
-      filtersData.common = transformCommonData($.csv.toObjects(csvd));
-      composeYearsFrom(filtersData.common);
-      composeYearsTo(filtersData.common);
-      composeClinics(filtersData.common);
+      parsedData.notes = transformNotesData($.csv.toObjects(csvd));
     },
     dataType: 'text'
   });
+
+
 });

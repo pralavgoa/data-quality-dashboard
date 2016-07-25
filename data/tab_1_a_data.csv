@@ -1,0 +1,288 @@
+ontology_id,parent_id,ontology_name
+1,0,Demographic
+2,0,Laboratory Test
+3,1,Age
+4,1,Ethnicity
+5,1,Gender
+6,1,Language
+7,1,Marital Status
+8,1,Race
+9,1,Religion
+10,2,Chemistry
+11,2,Hematology/Coagulation
+12,2,Immunology
+13,2,Urinanalysis
+14,3,0-9 years old
+15,3,10-17 years old
+16,3,18-34 years old
+17,3,35-44 years old
+18,3,45-54 years old
+19,3,55-64 years old
+20,3,65-74 years old
+21,3,65-74 years old
+22,3,75-84 years old
+23,3,85-89 years old
+24,3,>=65 years old
+25,3,>=85 years old
+26,3,>=90 years old
+27,4,Hispanic or Latino
+28,4,Non-Hispanic or Latino
+29,5,Female
+30,5,Male
+31,5,Undifferentiated
+32,5,Unknown
+33,6,Albanian
+34,6,Amheric (Ethiopian)
+35,6,Arabic
+36,6,Armenian
+37,6,Bengali
+38,6,Bosnian
+39,6,Bulgarian
+40,6,Burmese
+41,6,Cambodian (Khmer)
+42,6,Chavakano
+43,6,Chinese
+44,6,Chinese (Mandarin)
+45,6,Chinese (Mien)
+46,6,Chinese (Other)
+47,6,"Chinese,Cantonese (Inc Toishanese)"
+48,6,Creole
+49,6,Croatian
+50,6,Dari
+51,6,Dutch
+52,6,English
+53,6,Finnish
+54,6,Flemish
+55,6,French
+56,6,German
+57,6,Greek
+58,6,Gujarati
+59,6,Hebrew
+60,6,Hindi
+61,6,Urdu
+62,6,Hmong
+63,6,Miao
+64,6,Hungarian
+65,6,Ilocano
+66,6,Indonesian
+67,6,Italian
+68,6,Japanese
+69,6,Korean
+70,6,Lao
+71,6,Navajo
+72,6,Norwegian
+73,6,"Other, Non English"
+74,6,Pashto
+75,6,Persian (Farsi)
+76,6,Polish
+77,6,Portuguese
+78,6,Punjabi
+79,6,Romanian
+80,6,Russian
+81,6,Samoan
+82,6,Serbian
+83,6,Sign Language (American)
+84,6,Sign Language (Other)
+85,6,Spanish
+86,6,Swahili
+87,6,Swedish
+88,6,Tagalog (Filipino)
+89,6,Tamil
+90,6,Telugu
+91,6,Thai
+92,6,Tigrinya
+93,6,Tonga
+94,6,Turkish
+95,6,Ukrainian
+96,6,Unknown
+97,6,Decline To State
+98,6,Unable To Respond
+99,6,Vietnamese
+100,6,Vishavan
+101,6,Yiddish
+102,6,Yugoslav
+103,7,Annulled
+104,7,Divorced
+105,7,Domestic Partnership
+106,7,Interlocutory
+107,7,Life Partner
+108,7,Married
+109,7,Other
+110,7,Polygamous
+111,7,Separated
+112,7,Single
+113,7,Widowed
+114,7,Unknown
+115,8,American Indian or Alaska Native
+116,8,Asian
+117,8,Black or African American
+118,8,Multiple Races
+119,8,Native Hawaiian or Pacific Islander
+120,8,No Information
+121,8,White
+122,9,AME Zion Church
+123,9,Adventist
+124,9,Seven Day Adventist
+125,9,African religions
+126,9,Afro-Caribbean religions
+127,9,Voodoo
+128,9,Agnosticism
+129,9,Ancestor Worship
+130,9,Anglican
+131,9,Animism
+132,9,Apostolic Church
+133,9,Assembly of God
+134,9,Atheist
+135,9,Babi and Baha'I faiths
+136,9,Baptist
+137,9,Southern Baptist
+138,9,Brethren
+139,9,Church of Brethren
+140,9,Buddhist
+141,9,Mahayana
+142,9,Theravada
+143,9,Vajrayana
+144,9,Bon
+145,9,Tibetan
+146,9,Zen Buddhism
+147,9,Cao Dai
+148,9,Catholic
+149,9,Roman Catholic Church
+150,9,Christian Science
+151,9,Christian
+152,9,Confucianism
+153,9,Congregational Church
+154,9,Cyberculture religions
+155,9,Declines to state
+156,9,Disciples of Christ
+157,9,Divination
+158,9,Dutch Reformed
+159,9,Episcopalian
+160,9,Evangelical Covenant Church
+161,9,Evangelical Free Church
+162,9,Fourth Way
+163,9,Friends (Quaker)
+164,9,Gnosis
+165,9,Hindu
+166,9,Veda
+167,9,Humanism
+168,9,Independent
+169,9,Islamic
+170,9,Shiite (Islam)
+171,9,Sunni (Islam)
+172,9,Jainism
+173,9,Jehovah Witness
+174,9,Jewish
+175,9,Messianic Judaism
+176,9,Lutheran
+177,9,Meditation
+178,9,Mennonite
+179,9,Methodist
+180,9,United Methodist
+181,9,Mitraism
+182,9,Mormon (Latter Day Saints)
+183,9,Native American
+184,9,Nazarene
+185,9,Holiness
+186,9,New age
+187,9,No religious pref
+188,9,Non-denominational
+189,9,Occult
+190,9,Orthodox
+191,9,Eastern Orthodox
+192,9,Greek Orthodox
+193,9,Non-Roman Catholic
+194,9,Russian Orthodox
+195,9,Other
+196,9,Paganism
+197,9,Celticism
+198,9,Druid
+199,9,Wicca
+200,9,Pentecostal
+201,9,Church of God
+202,9,Presbyterian
+203,9,Protestant
+204,9,Reformed Church
+205,9,Religious Science
+206,9,Salvation Army
+207,9,Satanism
+208,9,Scientology
+209,9,Shamanism
+210,9,Shinto
+211,9,Sikh
+212,9,Spiritualism
+213,9,Taoism
+214,9,The Process
+215,9,Unitarian Universalist
+216,9,United Church of Christ
+217,9,Church of Christ
+218,9,Iglesia Ni Cristo
+219,9,Unity Church
+220,9,Universal Life Church
+221,9,Unknown
+222,10,Amylase
+223,10,Arterial Blood Gas
+224,10,C Reactive Protein
+225,10,"Calcium, Ionized"
+226,10,Calcium
+227,10,Carboxy Hemoglobin
+228,10,Creatine Kinase
+229,10,Creatinine
+230,10,Electrolytes
+231,10,Free Thyroxine
+232,10,Gamma Glutamyl Transferase
+233,10,Glomerular Filtration Rate
+234,10,Glucose
+235,10,Hemoglobin A1C
+236,10,Hepatic Function Panel
+237,10,Lactate Dehydrogenase
+238,10,Lactate
+239,10,Lipase
+240,10,Lipid Panel
+241,10,Magnesium
+242,10,Phosphate
+243,10,Thyrotropin (TSH)
+244,10,Troponin I
+245,10,Troponin T
+246,10,Urea Nitrogen
+247,10,Vitamin D
+248,223,Base Excess
+249,223,Bicarb
+250,223,Fraction Inspired O2
+251,223,Oxygen Saturation
+252,223,PCO2
+253,223,PO2
+254,223,pH
+255,230,Anion Gap
+256,230,Chloride
+257,230,C02
+258,230,Potassium
+259,230,Sodium
+260,233,Glomerular Filtr Rate if Afr Amer
+261,233,Glomerular Filtr Rate if Non Afr Amer
+262,11,Coagulation
+263,11,Complete Blood Count
+264,11,Erythrocyte Sedimentation Rate
+265,11,Methemoglobin/Hemoglobin Total Blood
+266,262,APTT
+267,262,Fibrinogen
+268,262,Prothrombin Time
+269,12,HIV1/HIV2 Antibody Screen
+270,13,Albumin UA
+271,13,Appearance UA
+272,13,Bacteria UA
+273,13,Bilirubin UA
+274,13,Blood UA
+275,13,Clarity UA
+276,13,Color UA
+277,13,Glucose UA
+278,13,Hemoglobin UA
+279,13,Ketones UA
+280,13,Leukocyte Esterase UA
+281,13,Mucous UA
+282,13,Nitrite UA
+283,13,Protein UA
+284,13,Specific Gravity UA
+285,13,Squamous Epithelila UA
+286,13,WBC UA
+287,13,pH UA

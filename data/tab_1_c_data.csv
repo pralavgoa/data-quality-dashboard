@@ -1,0 +1,16 @@
+ontology_id,hospital,comments
+3,UCLA,Data load is complete
+3,UCD,"ETL did not run fully last week, might show wrong counts"
+3,UCSD,This population data is an estimate
+3,UCI,Data might be slightly skewed
+3,UCSF,Data is not proper
+10,UCLA,Data load is complete due to issue 1
+10,UCD,"ETL did not run fully last week, might show wrong counts"
+10,UCSD,This population data is an estimate
+10,UCI,Data might be slightly skewed
+10,UCSF,Data is not proper
+12,UCLA,Data load is complete
+12,UCD,"ETL did not run fully last week, might show wrong counts"
+12,UCSD,This population data is an estimate
+12,UCI,Data might be slightly skewed
+12,UCSF,Data is not proper
