@@ -7,3 +7,4 @@ To run the dashboard, launch a local python http python server by navigating to 
 
 python python_http_server.py
 
+The application will be available at http://localhost:8000/html/

@@ -122,7 +122,7 @@ $(document).ready(function () {
 
   // Getting query data
   $.ajax({
-    url: 'tab_2_data_sample.csv',
+    url: 'data/tab_2_data_sample.csv',
     success: function (csvd) {
       var queryId;
       var $clone;
