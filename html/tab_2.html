@@ -61,22 +61,33 @@
           <div class="row placeholders">
             <form id="filters-form" class="form-horizontal col-sm-9">
 	  			<div class="form-group">
-	    			<label for="level1select" class="col-sm-2 control-label">Query</label>
+	    			<label for="month-select" class="col-sm-2 control-label">Month</label>
 	    			<div class="col-sm-10">
-		    			<select id="level1select" class="form-control" name="query"></select>
+		    			<select id="month-select" class="form-control" name="month">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
 					</div>
 	  		   	</div>
 				  	<div class="form-group">
-	    			<label for="fromyearselect" class="col-sm-2 control-label">Day Range</label>
+	    			<label for="year-select" class="col-sm-2 control-label">Year</label>
 	    			<div class="col-sm-10">
-		    			<select id="toyearselect" class="form-control" name="day-range">
-						  <option value="1">Today</option>
-						  <option value="7">Past 7 days</option>
-						  <option value="30">Past 30 days</option>
+		    			<select id="year-select" class="form-control" name="year">
+
 						</select>
 					   </div>
 	  		   	</div>
-				<div class="form-group">
+				<div class="form-group" hidden>
 				    <div class="col-sm-offset-2 col-sm-10" id="clinics-filter-container"></div>
 				</div>
 				<div class="form-group">
@@ -88,11 +99,11 @@
           </div>
 
             <div id="counts-container" class="table-responsive" hidden>
-                <h2 class="sub-header">Query Results</h2>
+                <h2 id="counts-title" class="sub-header">Query Results</h2>
                 <table id="result-table" class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Query</th>
+                        <th>Day</th>
                         <th>UCLA</th>
                         <th>UCI</th>
                         <th>UCD</th>
@@ -129,7 +140,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="jquery-csv.min.js"></script>
+    <script src="/javascript/jquery-csv.min.js"></script>
     <script>window.jQuery || document.write('<script src="https://getbootstrap.com/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
@@ -137,7 +148,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="https://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="javascript/stacked_bars.js"></script>
-    <script src="javascript/tab_2.js"></script>
+    <script src="/javascript/stacked_bars.js"></script>
+    <script src="/javascript/tab_2.js"></script>
   </body>
 </html>

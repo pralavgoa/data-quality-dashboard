@@ -1,68 +1,54 @@
 $(document).ready(function () {
-  var $querySelect = $('#level1select');
+  // Add
+  var $monthSelect = $('#month-select');
+  var $yearSelect = $('#year-select');
   var $filtersForm = $('#filters-form');
   var $resTable = $('#result-table');
   var queries = {};
+  var numToMonth = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  //var clinicNumColors = ["", "black", "red", "orange", "blue", "darkGreen", "green"];
+  var clinicNumColors = ["", "#737373", "#ff3333", "orange", "#6666ff", "#009900", "#00e600"];
 
+  
   $filtersForm.submit(function (e) {
     e.preventDefault();
 
     var $tr;
-    var items;
-    var item;
+    var $tc;
     var clinic;
-    var data = {};
+    var data = [];
     var filters = collectFilters();
-    var currentDate = new Date();
+    var query;
 
     // Filtering data
     for (var queryId in queries) {
-      if (filters.query && queryId != filters.query)
+      query = queries[queryId];
+      // Filtering by month
+      if (query.month != filters.month) {
         continue;
-
-      items = queries[queryId];
-      
-      for (var index in items) {
-        item = items[index];
-
-        // Filtering by date range
-        if (filters.dayRange) {
-          var date = new Date(item.query_run_timestamp);
-          var timeDiff = Math.abs(currentDate.getTime() - date.getTime());
-          var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-          if (diffDays > filters.dayRange)
-            continue;
-        }
-
-        for (var prop in item) {
-          // Filtering only clinics
-          if (prop === 'query_run_timestamp' || prop === 'query_id')
-            continue;
-
-          if (filters.clinics.indexOf(prop) < 0)
-            continue;
-
-          if (!data.hasOwnProperty(item.query_id))
-            data[item.query_id] = {};
-
-          if (!data[item.query_id].hasOwnProperty(prop))
-            data[item.query_id][prop] = 0.0;
-
-          data[item.query_id][prop] += parseInt(item[prop]);
-        }
       }
+
+      // Filtering by year
+      if (query.year != filters.year){
+        continue;
+      }
+      
+      // Add if ok
+      data.push(query);
     }
 
-    // If there is no data hiding table.
-    if (!Object.keys(data).length) {
+    // If there is no data, hiding table.
+    if (!data.length) {
       hideData();
       return;
     }
 
+    // Change title
+    $("#counts-title").text(numToMonth[filters.month].slice(0,3) + " " + filters.year + "");
+
     // Forming of a table header
     $resTable.html('');
-    $resTable.append('<thead><tr><th>Query</th></tr></thead>');
+    $resTable.append('<thead><tr><th>Day</th></tr></thead>');
     for (index in filters.clinics) {
       $resTable.find('thead tr').append('<th>' + filters.clinics[index] + '</th>');
     }
@@ -70,12 +56,14 @@ $(document).ready(function () {
 
     // Forming of a table body
     for (queryId in data) {
+      query = data[queryId];
       $tr = $('<tr></tr>');
-      $tr.append('<th>Q' + queryId + '</th>');
+      $tr.append('<th>' + query.day + '</th>');
 
       for (index in filters.clinics) {
         clinic = filters.clinics[index];
-        $tr.append('<td>' + data[queryId][clinic] + '</td>');
+        $tc = $('<td></td>').text(query[clinic]).css("background-color", clinicNumColors[query[clinic]]);
+        $tr.append($tc);
       }
 
       $resTable.find('tbody').append($tr);
@@ -87,9 +75,9 @@ $(document).ready(function () {
     var filter;
     var filters = $filtersForm.serializeArray();
     var transformedFilters = {
-      query: 0,
-      clinics: [],
-      dayRange: 0
+      month: 0,
+      year: 0,
+      clinics: []
     };
 
     for (index in filters) {
@@ -98,10 +86,10 @@ $(document).ready(function () {
       if (!filter.value)
         continue;
 
-      if (filter.name === 'query') {
-        transformedFilters.query = parseInt(filter.value);
-      } else if (filter.name === 'day-range') {
-        transformedFilters.dayRange = parseInt(filter.value);
+      if (filter.name === 'month') {
+        transformedFilters.month = parseInt(filter.value);
+      } else if (filter.name === 'year') {
+        transformedFilters.year = parseInt(filter.value);
       } else {
         transformedFilters.clinics.push(filter.value);
       }
@@ -122,11 +110,11 @@ $(document).ready(function () {
 
   // Getting query data
   $.ajax({
-    url: 'data/tab_2_data_sample.csv',
+    url: '/data/tab_2_data_dates.csv',
     success: function (csvd) {
       var queryId;
       var $clone;
-      var $option = $('<option></option>').val('').text('All');
+      var $option;
       var data = $.csv.toObjects(csvd);
       var $layout = $(
         '<label class="checkbox-inline">' +
@@ -134,24 +122,23 @@ $(document).ready(function () {
         '<span class="js-clinic-filter-name"></span>' +
         '</label>'
       );
-      $querySelect.append($option);
 
-      // Collecting queries
-      for (var index in data) {
-        queryId = data[index]['query_id'];
+      queries = data;
 
-        if (!queries.hasOwnProperty(queryId)) {
-          queries[queryId] = [];
-          $option = $('<option></option>').val(queryId).text('Q' + queryId);
-          $querySelect.append($option);
-        }
-
-        queries[queryId].push(data[index]);
+      // Collecting years
+      var minYear = parseInt(data[1].year);
+      var maxYear = minYear;
+      minYear = 2000;
+      maxYear = 2016;
+      
+      for( var i = minYear; i <= maxYear; i++){
+        option = $('<option></option>').val(i).text(i.toString());
+      	$('#year-select').append(option);
       }
 
       // Collecting clinics
       for (var prop in data[0]) {
-        if (['query_run_timestamp', 'query_id'].indexOf(prop) >= 0)
+        if (['day', 'month', 'year'].indexOf(prop) >= 0)
           continue;
 
         $clone = $layout.clone();
