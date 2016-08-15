@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+{% block references %}
+
+{% endblock %}
+
+
+{% block styles %}
+
+{% endblock %}
+
+
+{% block sidebar %}
+    <li><a href="tab_1.html">Tab 1</a></li>
+    <li><a href="tab_2.html">Tab 2</a></li>
+    <li><a href="tab_3.html">Tab 3</a></li>
+    <li class="active"><a href="#">Tab 4 <span class="sr-only">(current)</span></a></li>
+    <li><a href="tab_5.html">Tab 5</a></li>
+{% endblock %}
+
+
+{% block content %}
+            <h1 class="page-header">Tab 4</h1>
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    an interactive visualization of encounter densities over calendar time for defined sub-populations
+                    (e.g. patients in a given age range who have ambulatory encounters);
+                </div>
+            </div>
+
+            <h2 class="sub-header">Results Filter</h2>
+            <div class="row placeholders">
+                <form id="filters-form" class="form-horizontal col-sm-9">
+                    <div class="form-group">
+                        <label for="fromyearselect" class="col-sm-2 control-label">From Year</label>
+                        <div class="col-sm-10">
+                            <select id="fromyearselect" class="form-control" name="date-from"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="toyearselect" class="col-sm-2 control-label">To Year</label>
+                        <div class="col-sm-10">
+                            <select id="toyearselect" class="form-control" name="date-to"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <h2 class="sub-header">Interactive encounter densities</h2>
+            <div id="chart-container"></div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="/javascript/tab_4.js"></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+
+
+if all >0 or not "":
+    6
+if some >0 and some 0:
+    5
+if >0 and 0 and -1:
+    4
+if "" or >2min:
+    3
+if all "":
+    2
+if no data for day, missing day:
+    1
