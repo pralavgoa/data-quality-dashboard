@@ -1,4 +1,4 @@
-Get comment:
+---Get comment:---
 
 GET /comment/{id}
 {
@@ -15,7 +15,7 @@ Error messages:
 
 
 
-Set comment
+---Set comment---
 
 POST /comment
 {

@@ -1,0 +1,11 @@
+instead of this in tab templates:
+{% block sidebar %}
+    <li class="active"><a href="#">Tab 1 <span class="sr-only">(current)</span></a></li>
+    <li><a href="tab_2.html">Tab 2</a></li>
+    <li><a href="tab_3.html">Tab 3</a></li>
+    <li><a href="tab_4.html">Tab 4</a></li>
+{% endblock %}
+I could use template if statements(Not necessary with low number of tabs)
+
+
+Better documentation than rest_api.txt

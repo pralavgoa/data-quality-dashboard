@@ -23,11 +23,10 @@ class Comment(Resource):
     def get(self, id=None):
         comment = comments.get(id)
         if not comment:
-            # TODO could return http code also, 404
             return {
                 "result": "error",
                 "error_message": "Comment id not found"
-            }
+            }, 404
         return {
             "result": "success",
             "comment": comment
@@ -40,20 +39,16 @@ class Comment(Resource):
         try:
             id = int(args['id']) # comment ids are numeric
         except ValueError:
-            id = None
-        if not id:
-            # TODO could return http code also
             return {
                 "result": "error",
                 "error_message": "Invalid id format"
-            }
+            }, 400
         comment = args.get("comment")
         if not comment:
-            # TODO could return http code also
             return {
                 "result": "error",
                 "error_message": "Comment must not be empty"
-            }
+            }, 400
         comments[id] = comment
         return {
             "result": "success"
@@ -73,7 +68,7 @@ def tab1_page(html=None):
     try:
         return render_template(html)
     except TemplateNotFound:
-        return Response("Page not found: 404", 404)
+        return "Page not found: 404", 404
 
 
 @app.route("/javascript/<path:path>")
