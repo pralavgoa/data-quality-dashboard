@@ -10,16 +10,15 @@
 
 
 {% block sidebar %}
-    <li><a href="tab_1.html">Tab 1</a></li>
-    <li><a href="tab_2.html">Tab 2</a></li>
-    <li><a href="tab_3.html">Tab 3</a></li>
-    <li class="active"><a href="#">Tab 4 <span class="sr-only">(current)</span></a></li>
-    <li><a href="tab_5.html">Tab 5</a></li>
+    <li><a href="tab_1.html">Aggregated Yearly Patient Counts with Annotations</a></li>
+    <li><a href="tab_2.html">Network Health through Automated Queries</a></li>
+    <li class="active"><a href="#">Patient Encounter Densities<span class="sr-only">(current)</span></a></li>
+    <li><a href="tab_5.html">Data Quality Issues - Statistical</a></li>
 {% endblock %}
 
 
 {% block content %}
-            <h1 class="page-header">Tab 4</h1>
+            <h1 class="page-header">Patient Encounter Densities</h1>
             <div class="panel panel-primary">
                 <div class="panel-body">
                     an interactive visualization of encounter densities over calendar time for defined sub-populations
@@ -51,7 +50,9 @@
             </div>
 
             <h2 class="sub-header">Interactive encounter densities</h2>
-            <div id="chart-container"></div>
+            <div id="chart-container">
+                <img src="/images/PatientEncounterDensity.PNG"></img>
+            </div>
 {% endblock %}
 
 

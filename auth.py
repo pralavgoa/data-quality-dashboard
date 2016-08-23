@@ -27,18 +27,21 @@ def check_auth(username, password):
     """
     xml = render_template("UserAuthRequest.xml", username=username, password=password)
     # TODO use HTTPS and change address/port
-    response = urlopen("http://localhost:5001/auth", xml.encode("utf8"))
+    #response = urlopen("http://localhost:5001/auth", xml.encode("utf8"))
+    response = urlopen("http://164.67.204.132/devladrshrine/shrine-proxy/request", xml.encode("utf-8"))
     if response.code != 200:
         return False
-    xml = pq(response.read())
+    response_string=response.read()
+    xml = pq(response_string)
     elements = xml("response_header result_status status")
     if not len(elements):
+        print("Response header not found")
         return False
     status, text = elements[0].attrib["type"], elements[0].text
     if status == "ERROR":
         return False
-    return username == 'admin' and password == '1234'
-
+    #return username == 'admin' and password == '1234'
+    return True
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
