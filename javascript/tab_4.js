@@ -122,7 +122,7 @@ $(document).ready(function () {
 
   // Getting comment data
   $.ajax({
-    url: 'tab_4_data_sample.csv',
+    url: '/data/tab_4_data_sample.csv',
     success: function (csvd) {
       var year;
       rawData = $.csv.toObjects(csvd);
