@@ -1,0 +1,32 @@
+# Change certificate owner
+sudo chown :users cert/data_quality_dashboard.pem
+sudo chmod 400 cert/data_quality_dashboard.pem
+
+# SSH connection
+sudo ssh -i cert/data_quality_dashboard.pem ubuntu@dteqtiv.com
+
+# Upload dashboard changes to home
+sudo rsync -Pav --delete-before -e 'ssh -i cert/data_quality_dashboard.pem' "/home/mirko/pralav/data-quality-dashboard/" ubuntu@dteqtiv.com:"/home/ubuntu/data-quality-dashboard/"
+
+# Copy dashboard from home to /var/www
+sudo rsync -Pav --delete-before '/home/ubuntu/data-quality-dashboard' '/var/www/'
+
+# Copy apache configuration file
+sudo cp "/home/ubuntu/data-quality-dashboard/data-quality-dashboard.conf" "/etc/apache2/sites-available/"
+
+
+
+# Delete project(for total reupload)
+sudo rm -r "/home/ubuntu/data-quality-dashboard" && sudo rm -r "/var/www/data-quality-dashboard"
+
+# Enable site
+sudo a2ensite data-quality-dashboard
+
+# Disable site
+sudo a2dissite data-quality-dashboard
+
+# Restart apache2(when configs change), always use this to be sure everything is properly reloaded
+sudo service apache2 restart
+
+# Reload apache2(when the server scripts change)
+sudo service apache2 reload

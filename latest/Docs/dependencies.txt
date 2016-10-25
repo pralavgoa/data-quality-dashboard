@@ -1,0 +1,15 @@
+sudo apt update
+
+# Install python package modules and mysqldb
+sudo apt-get install python3-setuptools python3-pip python3-mysqldb
+
+# Install pyQuery dependencies
+sudo apt-get install libxml2-dev libxslt-dev zlib1g-dev
+sudo apt-get install lib32z1-dev # ONLY IF "pip3 install pyquery fails"
+
+# Install dependencies from pip3
+sudo pip3 install Flask Flask-RESTful mysql-connector pyquery defusedxml
+
+# Install apache2 and wsgi for python3
+sudo apt-get install apache2 libapache2-mod-wsgi-py3
+

@@ -1,0 +1,73 @@
+### wsgi configs
+# Needs change: "Create application for our app"
+
+
+import os
+import sys
+import importlib
+
+# Virtualenv settings
+#activate_this = "/var/www/html/data_quality_dashboard/venv/activate_this.py"
+#execfile(activate_this, dict(__file__=activate_this))
+
+# Replace stdout
+sys.stdout = sys.stderr
+
+# Add this file path to sys.path in order to import settings
+#sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "../.."))
+
+# Add this file path to sys.path in order to import app
+sys.path.append("/var/www/data-quality-dashboard/")
+
+# Create application for our app
+from rest_server import app as application
+# OR for test_auth
+from test_auth import app as application
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Apache2 config
+## There are 2 hosts for the dashboard, the webpage host and the authentication host(temporary)
+
+
+# Do not enable "Listen 80" because port 80 is enabled(listened to) by default, will cause error if you do
+#Listen 80
+Listen 5001
+
+<VirtualHost *:80>
+    DocumentRoot /var/www/
+    ServerName dashboard.quizpsyche.com
+    ServerAlias dashboard
+    ServerAdmin admin@gmail.com
+    WSGIScriptAlias /dashboard /var/www/data-quality-dashboard/wsgi/flask.wsgi
+    <Directory /var/www/data-quality-dashboard/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:5001>
+    ServerName localhost
+    ServerAdmin admin@gmail.com
+    WSGIScriptAlias / /var/www/data-quality-dashboard/wsgi/test_auth.wsgi
+    <Directory /var/www/data-quality-dashboard/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error-auth.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access-auth.log combined
+</VirtualHost>

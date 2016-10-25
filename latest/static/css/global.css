@@ -1,0 +1,51 @@
+.cb-label {
+  display: block;
+  //padding-left: 15px;
+  //text-indent: -15px;
+}
+.cb-input {
+  //width: 13px;
+  //height: 13px;
+  padding-left: 0;
+  margin:4px 4px 0 !important;
+  vertical-align: bottom;
+  position: relative;
+  top: -4px;
+  *overflow: hidden;
+}
+
+.li_darkblue {
+  color: darkblue !important;
+}
+
+.li_darkgreen {
+  color: darkgreen !important;
+}
+
+.li_black {
+  color: black !important;
+}
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+ul.pagination li a.active {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: #428bca;
+    color: white;
+}

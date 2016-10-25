@@ -1,0 +1,38 @@
+### Go to "https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#" which is the ec2 dashboard and click "Launch Instance"
+
+
+### Select the "Ubuntu Server 14.04 LTS (HVM)" AMI(Amazon Machine Image)
+
+
+### Select the "t2 micro" Instance Type and go Next
+
+
+### Go next on Instance Details
+
+
+### Go next on Add Storage
+
+
+### Go next on Tag Instance
+
+
+### Select an existing security group or create a new one
+# For a new security group you need to enter it's name and description and configure
+#    all ports that will be used in our instance
+#
+
+
+### Click Review and Launch
+# Review all settings and click Launch which will launch the new instance,
+#   if you added an ssh port you should get a window/popup which lets you download
+#   the ssh ".pem" certificate which you will use for connecting to your Instance
+#   through ssh
+
+
+### Certificate on linux
+# You will need to change the file permissions of the .pem certificate if you are running Linux(and maybe MacOS)
+#   using these commands:
+# CERTIFICATE
+sudo chown :users <CERTIFICATE>
+sudo chmod 400 <CERTIFICATE>
+# The ssh connection command and rsync command need to be run as root user(sudo)

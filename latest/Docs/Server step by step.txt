@@ -1,0 +1,39 @@
+### Setup EC2 Instance using "EC2 step by step.txt" if you did not already
+
+
+### Make wsgi and apache2 configurations using the "configuration generation.txt" manual or use predefined configs "data-quality-dashboard.conf" and "wsgi" folder
+
+
+### Install dependencies in order from dependencies.txt
+
+
+### Upload the dashboard to the "/home/ubuntu" folder on the server
+
+
+### Upload dashboard changes to home
+# CERTIFICATE
+# DASHBOARD_SOURCE_DIRECTORY must end with "/" which means upload the contents of the directory
+# HOST_NAME
+sudo rsync -Pav --delete-before -e 'ssh -i "<CERTIFICATE>"' "<DASHBOARD_SOURCE_DIRECTORY>" ubuntu@<HOST_NAME>:"/home/ubuntu/data-quality-dashboard/"
+
+
+### Connect to the server using SSH using the certificate, 
+# CERTIFICATE
+# HOST_NAME
+sudo ssh -i "<CERTIFICATE>" ubuntu@<HOST_NAME>
+
+
+### Copy the dashboard from home to /var/www
+sudo rsync -Pav --delete-before '/home/ubuntu/data-quality-dashboard' '/var/www/'
+
+
+### Copy the apache2 configuration file to /etc... made using the "configuration generation.txt" manual
+sudo cp "/home/ubuntu/data-quality-dashboard/data-quality-dashboard.conf" "/etc/apache2/sites-available/"
+
+
+### Enable the site and restart the apache2 service
+sudo a2ensite data-quality-dashboard
+sudo service apache2 restart
+
+
+### The site should be up and running

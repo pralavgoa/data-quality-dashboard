@@ -1,0 +1,10 @@
+
+"/api/data/tab1_a" new data returning structure "dict(result, error_message, data=[{},{}])" instead of "[{},{}]"
+
+comments resource authentication!!!
+
+limit "session_id, username, password" to use only POST, better make it redirect without password field to hide it from URL
+
+Set it to always connected and reconnect on execute if site idle for 10 minutes
+
+Save "Show only data nodes" state in session to persist on reloads

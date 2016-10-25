@@ -1,0 +1,14 @@
+Ubuntu:
+run: sudo apt-get install python3-mysqldb
+
+Fedora:
+dnf install python-mysql
+or
+yum install mysql-python
+
+
+Windows:
+you could use this pure python module:
+https://github.com/PyMySQL/PyMySQL
+copy the pymysql folder and rename it into MySQLdb so the flask server can import it
+it should work

@@ -1,0 +1,164 @@
+### GET /comment/{id}
+## Get comment with the specified id
+# Success 200
+{
+	"result":"success",
+	"role":"admin" or "user"
+	"comments":[{
+	  "hospital": string
+	  "comment": string
+	  "username": string
+	  "is_public": int
+	  "id": int
+	}...]
+}
+# Error 404
+{
+	"result":"error",
+	"error_message":"ERROR_MESSAGE"
+}
+# Error messages
+"Comment id not found": id is not in database
+
+
+
+### POST /comment
+## Args
+ontology_id = int, required   # The ontology ID
+hospital = string, required   # The hospital name
+comment = string, required    # The comment text
+## Set comment text bound to the ontology id and hospital name
+## Success 200
+## Error 404
+{
+	"result":"error",
+	"error_message":"ERROR_MESSAGE"
+}
+# Error messages
+"Invalid id format": id must be numeric
+"Comment must not be empty"
+
+
+
+### GET, POST /api/comment/update
+## Args
+comment_id = int, required   # The comment_id which is row_id in database
+is_public = int(1 or 0), optional   # Should the comment be public
+## Set comment attributes that are given
+## Success 200
+## Error 200
+{
+	"result":"error",
+	"error_message":"ERROR_MESSAGE"
+}
+# Error messages
+"Invalid comment_id format": Invalid comment_id format, must be numeric
+"Invalid is_public format": Invalid is_public format, must be numeric
+
+
+
+### GET,POST /api/data/tab1_a
+## Args
+# Data related
+parent_id = string, required    # The parent id, use "#" or "0" for root
+data_nodes = bool(true, false)  # If true returns only nodes that have data(or their children have data)
+# Auth related
+session_id = string
+username = string
+password = string
+## Get child treeview data from parent identified by id
+## Success 200
+[
+  {
+    id = string       # Child id
+    parent = string   # Parent id, "#" for root or > 0
+    text = string     # Child/ontology name
+    children = bool   # has children
+  },...,
+]
+## Error 404
+
+
+
+### GET,POST /api/data/tab1_b
+## Args
+# Data related
+ontology_id = int, required    # The ontology id, > 0
+min_year = int, default(2000)  # Lowest year to fetch
+max_year = int, default(2050)  # Highest year to fetch
+# Auth related
+session_id = string
+username = string
+password = string
+## Get graph data for the ontology
+## Success 200
+{
+  "result": "success"
+  "data": [
+    {
+      query_run_timestamp: string
+      ontology_id: int
+      ucla: int
+      uci: int
+      ucsf: int
+      ucsd: int
+      ucd: int
+    },...,
+  ]
+}
+
+
+### GET,POST /api/data/tab2_raw
+## Args
+# Data related
+year = int, required    # Year
+month = int, required   # Month
+day = int, required     # Day
+# Auth related
+session_id = string
+username = string
+password = string
+## Get detailed network health counts for specific day
+## Success 200
+{
+  "result": "success"
+  "data": [
+    {
+      path: string
+      timestamp: string
+      ucla: int
+      uci: int
+      ucd: int
+      ucsf: int
+      ucsd: int
+    },...,
+  ]
+}
+## Error 404
+## Error 400 Bad request
+{
+  "result": "error",
+  "error_message": "Invalid parameter type",
+  "code":"400"
+}
+
+
+
+### GET,POST /auth
+## Args
+username = string
+password = string
+## Authenticate session(login)
+## Success 302
+# Redirect to last page or homepage
+## Error 302
+# Redirect to /login.html
+
+
+
+### GET,POST /logout
+## Logout session
+## Success 302
+# Redirect to the referrer page or homepage.
+#   Any of those pages redirects to /login.html
+
