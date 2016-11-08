@@ -6,7 +6,7 @@ sudo chmod 400 cert/data_quality_dashboard.pem
 sudo ssh -i cert/data_quality_dashboard.pem ubuntu@dteqtiv.com
 
 # Upload dashboard changes to home
-sudo rsync -Pav --delete-before -e 'ssh -i cert/data_quality_dashboard.pem' "/home/mirko/pralav/data-quality-dashboard/" ubuntu@dteqtiv.com:"/home/ubuntu/data-quality-dashboard/"
+sudo rsync -Pav --delete-before -e 'ssh -i cert/data_quality_dashboard.pem' "/home/data-quality-dashboard/" ubuntu@dteqtiv.com:"/home/ubuntu/data-quality-dashboard/"
 
 # Copy dashboard from home to /var/www
 sudo rsync -Pav --delete-before '/home/ubuntu/data-quality-dashboard' '/var/www/'

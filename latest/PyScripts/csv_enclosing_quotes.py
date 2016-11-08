@@ -1,4 +1,4 @@
-input_file = "/home/mirko/Downloads/tab_1_a.csv"
+input_file = "tab_1_a.csv"
 #input_file = "tab_1_a.csv"
 # Using bytes because the data could not be decoded using ascii or utf8
 with open(input_file, "rb") as fi:
